@@ -4,6 +4,8 @@ import com.jpumpkin.hospitalapi.domain.patient.application.PatientService
 import com.jpumpkin.hospitalapi.domain.patient.dto.request.CreatePatientRequest
 import com.jpumpkin.hospitalapi.domain.patient.dto.request.PatientVisitRequest
 import com.jpumpkin.hospitalapi.domain.patient.dto.request.UpdatePatientRequest
+import org.springframework.data.domain.Pageable
+import org.springframework.data.web.PageableDefault
 import org.springframework.http.ResponseEntity.ok
 import org.springframework.web.bind.annotation.*
 import javax.validation.Valid
@@ -40,7 +42,8 @@ class PatientApi(
         @RequestParam name: String?,
         @RequestParam registerNumber: String?,
         @RequestParam dateOfBirth: String?,
-    ) = ok(patientService.getPatientList(name, registerNumber, dateOfBirth))
+        @PageableDefault(size = 30) pageable: Pageable
+    ) = ok(patientService.getPatientList(name, registerNumber, dateOfBirth, pageable))
 
     @PostMapping("/patients/{id}/visit")
     fun visit(

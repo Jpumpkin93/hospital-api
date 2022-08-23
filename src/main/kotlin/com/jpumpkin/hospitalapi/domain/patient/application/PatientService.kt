@@ -9,6 +9,7 @@ import com.jpumpkin.hospitalapi.domain.patient.dto.response.PatientResponse
 import com.jpumpkin.hospitalapi.domain.patient.repository.PatientQueryRepository
 import com.jpumpkin.hospitalapi.domain.patient.repository.PatientRepository
 import com.jpumpkin.hospitalapi.global.extension.findByIdOrThrow
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -44,8 +45,8 @@ class PatientService(
     fun getPatient(id: Long) = PatientResponse.from(patientRepository.findByIdOrThrow(id))
 
     @Transactional(readOnly = true)
-    fun getPatientList(name: String?, registerNumber: String?, dateOfBirth: String?) =
-        patientQueryRepository.findAll(name, registerNumber, dateOfBirth)
+    fun getPatientList(name: String?, registerNumber: String?, dateOfBirth: String?, pageable: Pageable) =
+        patientQueryRepository.findAll(name, registerNumber, dateOfBirth, pageable)
             .map { PatientListResponse.from(it) }
 
     @Transactional
