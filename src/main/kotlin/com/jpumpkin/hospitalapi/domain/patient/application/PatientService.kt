@@ -44,7 +44,9 @@ class PatientService(
     fun getPatient(id: Long) = PatientResponse.from(patientRepository.findByIdOrThrow(id))
 
     @Transactional(readOnly = true)
-    fun getPatientList() = patientQueryRepository.findAll().map { PatientListResponse.from(it) }
+    fun getPatientList(name: String?, registerNumber: String?, dateOfBirth: String?) =
+        patientQueryRepository.findAll(name, registerNumber, dateOfBirth)
+            .map { PatientListResponse.from(it) }
 
     @Transactional
     fun visit(id: Long, request: PatientVisitRequest) {

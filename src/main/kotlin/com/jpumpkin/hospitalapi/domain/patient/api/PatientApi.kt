@@ -36,7 +36,11 @@ class PatientApi(
     ) = ok(patientService.getPatient(id))
 
     @GetMapping("/patients")
-    fun getPatientList() = ok(patientService.getPatientList())
+    fun getPatientList(
+        @RequestParam name: String?,
+        @RequestParam registerNumber: String?,
+        @RequestParam dateOfBirth: String?,
+    ) = ok(patientService.getPatientList(name, registerNumber, dateOfBirth))
 
     @PostMapping("/patients/{id}/visit")
     fun visit(
