@@ -29,7 +29,7 @@ internal class PatientRepositoryTest {
             dateOfBirth = "1985-11-11",
             mobileNumber = "010-0000-0000",
             hospital = hospital,
-            visitList = emptyList()
+            visitList = mutableListOf()
         )
 
         patientRepository.save(patient)

@@ -1,7 +1,6 @@
 package com.jpumpkin.hospitalapi.domain.patient.entity
 
 import com.jpumpkin.hospitalapi.domain.hospital.entity.Hospital
-import com.jpumpkin.hospitalapi.domain.visit.entity.Visit
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.UpdateTimestamp
 import java.time.LocalDateTime
@@ -11,26 +10,26 @@ import javax.persistence.*
 @Entity
 class Patient(
     @Column(nullable = false, length = 45)
-    val name: String,
+    var name: String,
 
     @Column(nullable = false, length = 13)
     val registerNumber: String,
 
     @Column(nullable = false, length = 10)
-    val genderCode: String,
+    var genderCode: String,
 
     @Column(length = 10)
-    val dateOfBirth: String,
+    var dateOfBirth: String,
 
     @Column(length = 20)
-    val mobileNumber: String? = null,
+    var mobileNumber: String? = null,
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "hospital_id")
     val hospital: Hospital,
 
     @OneToMany(cascade = [CascadeType.ALL], mappedBy = "patient")
-    val visitList: List<Visit> = listOf()
+    val visitList: MutableList<Visit> = mutableListOf()
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,4 +43,21 @@ class Patient(
 
     @UpdateTimestamp
     val updatedAt: LocalDateTime? = null
+
+    fun update(patient: Patient) {
+        this.name = patient.name
+        this.genderCode = patient.genderCode
+        this.dateOfBirth = patient.dateOfBirth
+        this.mobileNumber = patient.mobileNumber
+    }
+
+    fun visit(statusCode: String) {
+        this.visitList.add(
+            Visit(
+                statusCode = statusCode,
+                hospital = this.hospital,
+                patient = this
+            )
+        )
+    }
 }

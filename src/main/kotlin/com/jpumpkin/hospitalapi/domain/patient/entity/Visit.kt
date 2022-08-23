@@ -1,4 +1,4 @@
-package com.jpumpkin.hospitalapi.domain.visit.entity
+package com.jpumpkin.hospitalapi.domain.patient.entity
 
 import com.jpumpkin.hospitalapi.domain.hospital.entity.Hospital
 import com.jpumpkin.hospitalapi.domain.patient.entity.Patient
@@ -13,11 +13,11 @@ class Visit(
     @Column(nullable = false, length = 10)
     val statusCode: String,
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "hospital_id")
     val hospital: Hospital,
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "patient_id")
     val patient: Patient
 ) {
