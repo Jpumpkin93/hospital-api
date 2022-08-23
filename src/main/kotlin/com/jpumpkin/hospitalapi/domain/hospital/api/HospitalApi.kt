@@ -14,7 +14,7 @@ class HospitalApi(
     val hospitalService: HospitalService
 ) {
 
-    @PostMapping("/hospital")
+    @PostMapping("/hospitals")
     fun createHospital(
         @Valid @RequestBody request: CreateHospitalRequest
     ) = ok(hospitalService.createHospital(request))

@@ -30,7 +30,7 @@ internal class HospitalApiTest {
             directorName = "jpumpkin"
         )
 
-        mockMvc.post("/hospital") {
+        mockMvc.post("/hospitals") {
             this.content = jacksonObjectMapper().writeValueAsString(request)
             this.contentType = MediaType.APPLICATION_JSON
         }.andExpect {
